@@ -20,20 +20,30 @@ fn main() {
         io::stdin()
             .read_line(&mut guess)
             .expect("Failed to read line.");
-        let guess: u32 = guess.trim().parse().expect("Number, please!");
+        // let guess: u32 = guess.trim().parse().expect("Number, please!");
+        let guess: u32 =
+            match guess.trim().parse() {
+                Ok(num) => num,
+                Err(_) => {
+                    println!("Hmm, this is what we need.");
+                    println!("We're looking for an integer in numeric form.");
+                    println!("Try again. :)");
+                    continue
+                }
+            };
 
         println!();
-        println!("Your guess: {guess}");
+        print!("Your guess of {guess} is too ");
         match guess.cmp(&secret_number) {
-            Ordering::Less => print!("Too low!"),
+            Ordering::Less => print!("low"),
             Ordering::Equal => {
-                println!("Good job!");
+                println!("good to be true!");
                 break;
             }
-            Ordering::Greater => print!("Too high!"),
+            Ordering::Greater => print!("high"),
         }
 
-        println!(" Try again: ");
+        println!(", try again: ");
     }
-    println!("My number was {secret_number}.");
+    println!("My number was {secret_number}!");
 }
